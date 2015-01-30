@@ -35,8 +35,12 @@ extern __typeof (__redirect_memcpy) __memcpy_cell attribute_hidden;
 extern __typeof (__redirect_memcpy) __memcpy_power6 attribute_hidden;
 extern __typeof (__redirect_memcpy) __memcpy_a2 attribute_hidden;
 extern __typeof (__redirect_memcpy) __memcpy_power7 attribute_hidden;
+extern __typeof (__redirect_memcpy) __memcpy_power8 attribute_hidden;
 
 libc_ifunc (__libc_memcpy,
+            (hwcap2 & PPC_FEATURE2_ARCH_2_07)
+            ? __memcpy_power8 :
+
             (hwcap & PPC_FEATURE_HAS_VSX)
             ? __memcpy_power7 :
 	      (hwcap & PPC_FEATURE_ARCH_2_06)
