@@ -31,10 +31,13 @@ extern __typeof (__redirect_memmove) __libc_memmove;
 
 extern __typeof (__redirect_memmove) __memmove_ppc attribute_hidden;
 extern __typeof (__redirect_memmove) __memmove_power7 attribute_hidden;
+extern __typeof (__redirect_memmove) __memmove_power8 attribute_hidden;
 
 libc_ifunc (__libc_memmove,
-            (hwcap & PPC_FEATURE_HAS_VSX)
-            ? __memmove_power7
+            (hwcap2 & PPC_FEATURE2_ARCH_2_07)
+            ? __memmove_power8 :
+              (hwcap & PPC_FEATURE_HAS_VSX)
+              ? __memmove_power7
             : __memmove_ppc);
 
 #undef memmove

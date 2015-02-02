@@ -67,6 +67,8 @@ __libc_ifunc_impl_list (const char *name, struct libc_ifunc_impl *array,
 
   /* Support sysdeps/powerpc/powerpc64/multiarch/memmove.c.  */
   IFUNC_IMPL (i, name, memmove,
+	      IFUNC_IMPL_ADD (array, i, memcpy, hwcap2 & PPC_FEATURE2_ARCH_2_07,
+			      __memmove_power8)
 	      IFUNC_IMPL_ADD (array, i, memmove, hwcap & PPC_FEATURE_HAS_VSX,
 			      __memmove_power7)
 	      IFUNC_IMPL_ADD (array, i, memmove, 1, __memmove_ppc))
