@@ -19,6 +19,7 @@ CFLAGS-semtimedop.os += -fomit-frame-pointer
 endif
 
 ifeq ($(subdir),elf)
+sysdep-rtld_routines += libc-do-syscall
 sysdep-others += lddlibc4
 install-bin += lddlibc4
 endif
@@ -31,6 +32,7 @@ endif
 # libpthread uses six-argument inline syscalls.
 ifeq ($(subdir),nptl)
 libpthread-sysdep_routines += libc-do-syscall
+CFLAGS-libc-cancellation.c += -fomit-frame-pointer
 endif
 
 ifeq ($(subdir),resource)

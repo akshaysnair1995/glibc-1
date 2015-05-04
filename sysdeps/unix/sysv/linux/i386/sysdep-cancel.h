@@ -38,3 +38,9 @@
 #define RTLD_SINGLE_THREAD_P \
   __builtin_expect (THREAD_GETMEM (THREAD_SELF, \
 				   header.multiple_threads) == 0, 1)
+
+static inline
+long int __pthread_get_ip (const ucontext_t *uc)
+{
+  return (long int)uc->uc_mcontext.gregs[REG_EIP];
+}
