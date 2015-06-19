@@ -181,9 +181,16 @@ extern int __REDIRECT_NTH (aio_read, (struct aiocb *__aiocbp), aio_read64)
 extern int __REDIRECT_NTH (aio_write, (struct aiocb *__aiocbp), aio_write64)
   __nonnull ((1));
 
+# ifdef __USE_XOPEN2K
+#  define __restrict_listio __restrict
+# else
+#  define __restrict_listio
+# endif
+
 extern int __REDIRECT_NTH (lio_listio,
 			   (int __mode,
-			    struct aiocb *const __list[__restrict_arr],
+			    struct aiocb *__restrict_listio
+			      const __list[__restrict_arr],
 			    int __nent, struct sigevent *__restrict __sig),
 			   lio_listio64) __nonnull ((2));
 

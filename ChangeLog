@@ -1,3 +1,8 @@
+2015-04-19  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+
+	* rt/aio.h (lio_listio): Add missing restrict on first argument
+	if __USE_XOPEN2K is defined.
+
 2016-04-18  Wilco Dijkstra  <wdijkstr@arm.com>
 
 	[BZ #18712]
