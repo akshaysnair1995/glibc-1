@@ -51,3 +51,9 @@ extern int __local_multiple_threads attribute_hidden;
 #define RTLD_SINGLE_THREAD_P \
   __builtin_expect (THREAD_GETMEM (THREAD_SELF, \
 				   header.multiple_threads) == 0, 1)
+
+static inline
+long int __pthread_get_ip (const struct ucontext *uc)
+{
+  return uc->uc_mcontext.psw.addr;
+}
