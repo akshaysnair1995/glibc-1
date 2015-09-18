@@ -25,6 +25,3 @@ creat64 (const char *file, mode_t mode)
 {
   return __open64 (file, O_WRONLY | O_CREAT | O_TRUNC, mode);
 }
-
-/* __open64 handles cancellation.  */
-LIBC_CANCEL_HANDLED ();
