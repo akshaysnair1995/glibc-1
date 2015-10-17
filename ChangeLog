@@ -875,6 +875,22 @@
 
 2015-10-22  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 
+	* sysdeps/unix/sysdep.h (SYSCALL_CANCEL): Fix macro for zero argument
+	syscalls.
+	(__SYSCALL0): New macro.
+	(__SYSCALL1): Likewise.
+	(__SYSCALL2): Likewise.
+	(__SYSCALL3): Likewise.
+	(__SYSCALL4): Likewise.
+	(__SYSCALL5): Likewise.
+	(__SYSCALL6): Likewise.
+	(__SYSCALL_CONCAT_X): Likewise.
+	(__SYSCALL_CONCAT): Likewise.
+	(__SYSCALL_DIST): Likewise.
+	(__SYSCALL_CALL): Likewise.
+
+2015-10-22  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+
 	* sysdeps/unix/sysv/linux/powerpc/powerpc64/sync_file_range.c
 	(__NR_sync_file_range2): Assume it is always defined.
 	* sysdeps/unix/sysv/linux/mips/mips32/sync_file_range.c
