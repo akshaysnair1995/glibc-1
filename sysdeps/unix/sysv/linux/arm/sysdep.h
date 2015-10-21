@@ -23,6 +23,7 @@
 /* There is some commonality.  */
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/arm/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 /* Defines RTLD_PRIVATE_ERRNO and USE_DL_SYSINFO.  */
 #include <dl-sysdep.h>
@@ -316,6 +317,11 @@ __local_syscall_error:						\
 	.fnend
 
 #else /* not __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val)   \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
 
 /* Define a macro which expands into the inline wrapper code for a system
    call.  */

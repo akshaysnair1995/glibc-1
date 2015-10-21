@@ -24,6 +24,7 @@
 #include <sysdeps/unix/sysdep.h>
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/hppa/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 /* Defines RTLD_PRIVATE_ERRNO.  */
 #include <dl-sysdep.h>
@@ -350,6 +351,11 @@ L(pre_end):					ASM_LINE_SEP	\
 
 
 #else
+
+#define __SYSCALL_LL_O(__val) \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
 
 /* GCC has to be warned that a syscall may clobber all the ABI
    registers listed as "caller-saves", see page 8, Table 2

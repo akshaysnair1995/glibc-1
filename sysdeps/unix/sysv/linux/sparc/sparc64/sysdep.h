@@ -116,6 +116,9 @@ ENTRY(name);					\
 
 #else  /* __ASSEMBLER__ */
 
+#define __SYSCALL_LL_O(__val)   (__val)
+#define __SYSCALL_LL_O64(__val) (__val)
+
 #define __SYSCALL_STRING						\
 	"ta	0x6d;"							\
 	"bcc,pt	%%xcc, 1f;"						\

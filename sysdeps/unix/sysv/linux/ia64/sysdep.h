@@ -22,6 +22,7 @@
 
 #include <sysdeps/unix/sysdep.h>
 #include <sysdeps/unix/sysv/linux/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 #include <sysdeps/ia64/sysdep.h>
 #include <dl-sysdep.h>
 #include <tls.h>
@@ -185,6 +186,9 @@
 #define ret_ERRVAL		ret
 
 #else /* not __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val)   (__val)
+#define __SYSCALL_LL_O64(__val) (__val)
 
 #define BREAK_INSN_1(num) "break " #num ";;\n\t"
 #define BREAK_INSN(num) BREAK_INSN_1(num)

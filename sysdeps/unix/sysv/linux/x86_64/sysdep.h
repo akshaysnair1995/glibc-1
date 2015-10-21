@@ -21,6 +21,7 @@
 /* There is some commonality.  */
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/x86_64/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 #include <tls.h>
 
 #if IS_IN (rtld)
@@ -188,6 +189,10 @@
 # define DOARGS_6 DOARGS_5
 
 #else	/* !__ASSEMBLER__ */
+
+# define __SYSCALL_LL_O(__val)   (__val)
+# define __SYSCALL_LL_O64(__val) (__val)
+
 /* Define a macro which expands inline into the wrapper code for a system
    call.  */
 # undef INLINE_SYSCALL

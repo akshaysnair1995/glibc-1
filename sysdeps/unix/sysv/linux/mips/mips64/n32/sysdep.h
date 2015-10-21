@@ -21,6 +21,7 @@
 /* There is some commonality.  */
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/mips/mips64/n32/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 #include <tls.h>
 
@@ -43,6 +44,9 @@
 # define SYSCALL_ERROR_LABEL 99b
 
 #else   /* ! __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val)   (__val)
+#define __SYSCALL_LL_O64(__val) (__val)
 
 /* Convert X to a long long, without losing any bits if it is one
    already or warning if it is a 32-bit pointer.  */

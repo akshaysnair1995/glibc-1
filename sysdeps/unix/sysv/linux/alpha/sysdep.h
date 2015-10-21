@@ -27,8 +27,12 @@
 /* There is some commonality.  */
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/alpha/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 #include <tls.h>
+
+#define __SYSCALL_LL_O(__val)   (__val)
+#define __SYSCALL_LL_O64(__val) (__val)
 
 /* For Linux we can use the system call table in the header file
 	/usr/include/asm/unistd.h

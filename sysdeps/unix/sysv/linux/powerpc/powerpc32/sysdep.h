@@ -20,6 +20,7 @@
 
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/powerpc/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 #include <tls.h>
 
 /* Some systen calls got renamed over time, but retained the same semantics.
@@ -50,6 +51,11 @@
 #ifndef __ASSEMBLER__
 
 # include <errno.h>
+
+# define __SYSCALL_LL_O(__val)   \
+   __LONG_LONG_PAIR (offset >> 31, offset)
+# define __SYSCALL_LL_O64(__val) \
+   __LONG_LONG_PAIR ((long) (__val >> 32), (long) __val)
 
 /* Define a macro which expands inline into the wrapper code for a VDSO
    call. This use is for internal calls that do not need to handle errors

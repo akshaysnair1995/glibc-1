@@ -78,6 +78,11 @@
 
 #include <errno.h>
 
+#define __SYSCALL_LL_O(__val)   \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
+
 /* Define a macro which expands inline into the wrapper code for a system
    call.  */
 # undef INLINE_SYSCALL

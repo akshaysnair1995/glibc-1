@@ -22,6 +22,7 @@
 #include <sysdeps/unix/sysdep.h>
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/sparc/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 #ifdef __ASSEMBLER__
 

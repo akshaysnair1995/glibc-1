@@ -21,6 +21,7 @@
 /* There is some commonality.  */
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/mips/mips64/n64/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 #include <tls.h>
 
@@ -43,6 +44,9 @@
 # define SYSCALL_ERROR_LABEL 99b
 
 #else   /* ! __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val)   (__val)
+#define __SYSCALL_LL_O64(__val) (__val)
 
 /* Define a macro which expands into the inline wrapper code for a system
    call.  */

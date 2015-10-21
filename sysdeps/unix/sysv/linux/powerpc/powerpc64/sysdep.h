@@ -22,29 +22,12 @@
 
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/powerpc/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 #include <tls.h>
 
 /* Define __set_errno() for INLINE_SYSCALL macro below.  */
 #ifndef __ASSEMBLER__
 #include <errno.h>
-#endif
-
-/* Some systen calls got renamed over time, but retained the same semantics.
-   Handle them here so they can be catched by both C and assembler stubs in
-   glibc.  */
-
-#ifdef __NR_pread64
-# ifdef __NR_pread
-#  error "__NR_pread and __NR_pread64 both defined???"
-# endif
-# define __NR_pread __NR_pread64
-#endif
-
-#ifdef __NR_pwrite64
-# ifdef __NR_pwrite
-#  error "__NR_pwrite and __NR_pwrite64 both defined???"
-# endif
-# define __NR_pwrite __NR_pwrite64
 #endif
 
 /* For Linux we can use the system call table in the header file
@@ -61,6 +44,9 @@
 # define ASM_SIZE_DIRECTIVE(name) .size name,.-name
 
 #endif /* __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val)   (__val)
+#define __SYSCALL_LL_O64(__val) (__val)
 
 /* This version is for internal uses when there is no desire
    to set errno */

@@ -137,6 +137,11 @@
 
 #else /* __ASSEMBLER__ */
 
+#define __SYSCALL_LL_O(__val) \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
+
 /* In order to get __set_errno() definition in INLINE_SYSCALL.  */
 #include <errno.h>
 

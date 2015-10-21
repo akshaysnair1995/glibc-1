@@ -107,6 +107,11 @@ ENTRY(name);					\
 
 #else  /* __ASSEMBLER__ */
 
+#define __SYSCALL_LL_O(__val) \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
+
 #define __SYSCALL_STRING						\
 	"ta	0x10;"							\
 	"bcc	1f;"							\

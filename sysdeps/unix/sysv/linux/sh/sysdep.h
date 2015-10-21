@@ -23,6 +23,7 @@
 /* There is some commonality.  */
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/unix/sh/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 #include <tls.h>
 
 /* For Linux we can use the system call table in the header file
@@ -190,6 +191,11 @@
  2:
 
 #else /* not __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val)   \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
 
 #define SYSCALL_INST_STR0	"trapa #0x10\n\t"
 #define SYSCALL_INST_STR1	"trapa #0x11\n\t"

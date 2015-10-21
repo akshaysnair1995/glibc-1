@@ -22,6 +22,7 @@
 #include <sysdeps/unix/sysdep.h>
 #include <sysdeps/unix/sysv/linux/sysdep.h>
 #include <sysdeps/microblaze/sysdep.h>
+#include <sysdeps/unix/sysv/linux/generic/sysdep.h>
 
 /* Defines RTLD_PRIVATE_ERRNO.  */
 #include <dl-sysdep.h>
@@ -162,6 +163,11 @@ SYSCALL_ERROR_LABEL_DCL:                            \
     addk  r0,r0,r0;
 
 #else /* not __ASSEMBLER__ */
+
+#define __SYSCALL_LL_O(__val) \
+  __LONG_LONG_PAIR (__val >> 31, __val)
+#define __SYSCALL_LL_O64(__val) \
+  __LONG_LONG_PAIR ((off_t) (__val >> 32), (off_t) (__val & 0xffffffff))
 
 /* Define a macro which expands into the inline wrapper code for a system
    call.  */

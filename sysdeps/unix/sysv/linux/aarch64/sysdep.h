@@ -151,6 +151,8 @@
 
 #else /* not __ASSEMBLER__ */
 
+# define __SYSCALL_LL_O(__val)   (__val)
+# define __SYSCALL_LL_O64(__val) (__val)
 
 /* List of system calls which are supported as vsyscalls.  */
 # define HAVE_CLOCK_GETRES_VSYSCALL	1
