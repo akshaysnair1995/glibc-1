@@ -24,22 +24,21 @@
 #include <sys/syscall.h>
 
 
-#ifdef __NR_sync_file_range
-int
-sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
-{
-  return SYSCALL_CANCEL (sync_file_range, fd,
-			 __LONG_LONG_PAIR ((long) (from >> 32), (long) from),
-			 __LONG_LONG_PAIR ((long) (to >> 32), (long) to),
-			 flags);
-}
-#elif defined __NR_sync_file_range2
+#ifdef __NR_sync_file_range2
 int
 sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
 {
   return SYSCALL_CANCEL (sync_file_range2, fd, flags,
-			 __LONG_LONG_PAIR ((long) (from >> 32), (long) from),
-			 __LONG_LONG_PAIR ((long) (to >> 32), (long) to));
+			 __SYSCALL_LL_O64 (from),
+			 __SYSCALL_LL_O64 (to));
+}
+#elif defined __NR_sync_file_range
+int
+sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
+{
+  return SYSCALL_CANCEL (sync_file_range, fd,
+			 __ALIGNMENT_ARG __SYSCALL_LL_O64 (from),
+			 __SYSCALL_LL_O64 (to), flags);
 }
 #else
 int
