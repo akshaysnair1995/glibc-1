@@ -36,6 +36,8 @@
 #endif
 #define __ASSUME_SENDMMSG_SYSCALL_WITH_SOCKETCALL	1
 
+#define __ASSUME_ACCEPT_SYSCALL		1
+
 #include_next <kernel-features.h>
 
 /* 32-bit SPARC kernels do not support

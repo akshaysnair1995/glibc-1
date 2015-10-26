@@ -34,6 +34,8 @@
 # define __ASSUME_UTIMES		1
 #endif
 
+#define __ASSUME_ACCEPT_SYSCALL		1
+
 #include_next <kernel-features.h>
 
 /* The prlimit64 syscall was added for PA in 2.6.37.  */

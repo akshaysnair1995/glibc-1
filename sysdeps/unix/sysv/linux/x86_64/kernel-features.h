@@ -35,4 +35,6 @@
 # define __ASSUME_GETCPU_SYSCALL	1
 #endif
 
+#define __ASSUME_ACCEPT_SYSCALL		1
+
 #include_next <kernel-features.h>

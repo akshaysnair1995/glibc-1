@@ -31,6 +31,8 @@
 # define __ASSUME_SENDMMSG_SYSCALL     1
 #endif
 
+#define __ASSUME_ACCEPT_SYSCALL		1
+
 #include_next <kernel-features.h>
 
 #undef __ASSUME_ST_INO_64_BIT

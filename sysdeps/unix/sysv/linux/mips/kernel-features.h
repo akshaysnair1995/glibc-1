@@ -32,6 +32,8 @@
 # define __ASSUME_SENDMMSG_SYSCALL	1
 #endif
 
+#define __ASSUME_ACCEPT_SYSCALL		1
+
 #include_next <kernel-features.h>
 
 /* The n32 syscall ABI did not have a getdents64 syscall until

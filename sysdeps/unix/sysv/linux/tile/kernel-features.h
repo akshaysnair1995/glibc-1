@@ -26,6 +26,8 @@
 # define __ASSUME_SENDMMSG_SYSCALL	1
 #endif
 
+#define __ASSUME_ACCEPT_SYSCALL			1
+
 #include_next <kernel-features.h>
 
 /* Define this if your 32-bit syscall API requires 64-bit register

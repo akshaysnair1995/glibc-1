@@ -1,6 +1,5 @@
 # File name	Caller	Syscall name	Args	Strong name	Weak names
 
-accept		-	accept		Ci:iBN	__libc_accept	accept
 access		-	access		i:si	__access	access
 acct		-	acct		i:S	acct
 adjtime		-	adjtime		i:pp	__adjtime	adjtime

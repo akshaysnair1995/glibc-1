@@ -32,6 +32,8 @@
 # define __ASSUME_SENDMMSG_SYSCALL	1
 #endif
 
+#define __ASSUME_ACCEPT_SYSCALL		1
+
 #include_next <kernel-features.h>
 
 /* The ARM kernel before 3.14.3 may or may not support

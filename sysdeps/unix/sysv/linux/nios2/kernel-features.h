@@ -25,6 +25,7 @@
    guaranteeing many kernel features.  */
 
 #define __ASSUME_ACCEPT4_SYSCALL        1
+#define __ASSUME_ACCEPT4_FOR_ACCEPT_SYSCALL	1
 #define __ASSUME_RECVMMSG_SYSCALL       1
 #define __ASSUME_SENDMMSG_SYSCALL       1
 
