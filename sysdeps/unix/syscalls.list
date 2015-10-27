@@ -9,7 +9,6 @@ chmod		-	chmod		i:si	__chmod		chmod
 chown		-	chown		i:sii	__chown		chown
 chroot		-	chroot		i:s	chroot
 close		-	close		Ci:i	__libc_close	__close close
-connect		-	connect		Ci:ipi	__libc_connect	__connect connect
 dup		-	dup		i:i	__dup		dup
 dup2		-	dup2		i:ii	__dup2		dup2
 dup3		-	dup3		i:iii	__dup3		dup3

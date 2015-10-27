@@ -36,5 +36,6 @@
 #endif
 
 #define __ASSUME_ACCEPT_SYSCALL		1
+#define __ASSUME_CONNECT_SYSCALL	1
 
 #include_next <kernel-features.h>
