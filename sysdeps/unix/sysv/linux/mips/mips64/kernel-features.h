@@ -1,4 +1,8 @@
-/* Copyright (C) 2001-2015 Free Software Foundation, Inc.
+/* Set flags signalling availability of kernel features based on given
+   kernel version number.  MIPS64 version.
+
+   Copyright (C) 2015 Free Software Foundation, Inc.
+
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -15,19 +19,8 @@
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-#include <errno.h>
-#include <sys/socket.h>
-#include <sysdep-cancel.h>
+#include <linux/version.h>
 
-/* Read N bytes into BUF from socket FD.
-   Returns the number read or -1 for errors.  */
+#define __ASSUME_RECVFROM_FOR_RECV_SYSCALL	1
 
-ssize_t
-__libc_recv (int fd, void *buf, size_t n, int flags)
-{
-  return SYSCALL_CANCEL (recvfrom, fd, buf, n, flags, NULL, NULL);
-}
-
-weak_alias (__libc_recv, __recv)
-libc_hidden_weak (__recv)
-weak_alias (__recv, recv)
+#include_next <kernel-features.h>

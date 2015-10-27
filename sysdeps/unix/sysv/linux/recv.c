@@ -27,7 +27,9 @@
 ssize_t
 __libc_recv (int fd, void *buf, size_t len, int flags)
 {
-#ifdef __ASSUME_RECV_SYSCALL
+#ifdef __ASSUME_RECVFROM_FOR_RECV_SYSCALL
+  return SYSCALL_CANCEL (recvfrom, fd, buf, len, flags, NULL, NULL);
+#elif defined(__ASSUME_RECV_SYSCALL)
   return SYSCALL_CANCEL (recv, fd, buf, len, flags);
 #elif defined __ASSUME_RECVFROM_FOR_RECV_SYSCALL
   return SYSCALL_CANCEL (recvfrom, fd, buf, len, flags, NULL, NULL);
