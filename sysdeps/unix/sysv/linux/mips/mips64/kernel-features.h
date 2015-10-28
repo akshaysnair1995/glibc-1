@@ -22,5 +22,6 @@
 #include <linux/version.h>
 
 #define __ASSUME_RECVFROM_FOR_RECV_SYSCALL	1
+#define __ASSUME_SENDTO_FOR_SEND_SYSCALL	1
 
 #include_next <kernel-features.h>

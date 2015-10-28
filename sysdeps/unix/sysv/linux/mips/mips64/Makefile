@@ -1,11 +1,3 @@
-ifeq ($(subdir),socket)
-CFLAGS-send.c += -fexceptions
-endif
-
-ifeq ($(subdir),nptl)
-CFLAGS-send.c += -fexceptions
-endif
-
 ifeq ($(subdir),signal)
 # sigaction.c defines static functions in asms and refers to them from
 # C code, resulting in "'restore_rt' used but never defined" (which
