@@ -36,7 +36,11 @@ __libc_open64 (const char *file, int oflag, ...)
       va_end (arg);
     }
 
+#ifdef __NR_open
   return SYSCALL_CANCEL (open, file, oflag | O_LARGEFILE, mode);
+#else
+  return SYSCALL_CANCEL (openat, AT_FDCWD, file, oflag | O_LARGEFILE, mode);
+#endif
 }
 weak_alias (__libc_open64, __open64)
 libc_hidden_weak (__open64)

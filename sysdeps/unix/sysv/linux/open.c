@@ -1,6 +1,5 @@
-/* Copyright (C) 2011-2015 Free Software Foundation, Inc.
+/* Copyright (C) 2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Contributed by Chris Metcalf <cmetcalf@tilera.com>, 2011.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -25,7 +24,7 @@
 /* Open FILE with access OFLAG.  If O_CREAT or O_TMPFILE is in OFLAG,
    a third argument is the file protection.  */
 int
-__libc_open64 (const char *file, int oflag, ...)
+__libc_open (const char *file, int oflag, ...)
 {
   int mode = 0;
 
@@ -37,8 +36,34 @@ __libc_open64 (const char *file, int oflag, ...)
       va_end (arg);
     }
 
-  return SYSCALL_CANCEL (openat, AT_FDCWD, file, oflag | O_LARGEFILE, mode);
+#ifdef __NR_open
+  return SYSCALL_CANCEL (open, file, oflag, mode);
+#else
+  return SYSCALL_CANCEL (openat, AT_FDCWD, file, oflag, mode);
+#endif
 }
-weak_alias (__libc_open64, __open64)
-libc_hidden_weak (__open64)
-weak_alias (__libc_open64, open64)
+libc_hidden_def (__libc_open)
+
+weak_alias (__libc_open, __open)
+libc_hidden_weak (__open)
+weak_alias (__libc_open, open)
+
+int
+__open_nocancel (const char *file, int oflag, ...)
+{
+  int mode = 0;
+
+  if (__OPEN_NEEDS_MODE (oflag))
+    {
+      va_list arg;
+      va_start (arg, oflag);
+      mode = va_arg (arg, int);
+      va_end (arg);
+    }
+
+#ifdef __NR_open
+  return INLINE_SYSCALL (open, 3, file, oflag, mode);
+#else
+  return INLINE_SYSCALL (openat, 4, AT_FDCWD, file, oflag, mode);
+#endif
+}
