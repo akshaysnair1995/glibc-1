@@ -1,6 +1,5 @@
-/* Copyright (C) 2011-2015 Free Software Foundation, Inc.
+/* Copyright (C) 2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Contributed by Chris Metcalf <cmetcalf@tilera.com>, 2011.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -20,18 +19,12 @@
 #include <sys/types.h>
 #include <sysdep-cancel.h>
 
-#undef	creat
-
 /* Create FILE with protections MODE.  */
 int
-creat (const char *file, mode_t mode)
+creat64 (const char *file, mode_t mode)
 {
-  return __open (file, O_WRONLY | O_CREAT | O_TRUNC, mode);
+  return __open64 (file, O_WRONLY | O_CREAT | O_TRUNC, mode);
 }
 
-/* __open handles cancellation.  */
+/* __open64 handles cancellation.  */
 LIBC_CANCEL_HANDLED ();
-
-#if __WORDSIZE == 64
-weak_alias (creat, creat64)
-#endif

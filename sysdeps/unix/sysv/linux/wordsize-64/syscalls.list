@@ -12,7 +12,6 @@ getrlimit	-	getrlimit	i:ip	__getrlimit	getrlimit getrlimit64 __getrlimit64
 setrlimit	-	setrlimit	i:ip	__setrlimit	setrlimit setrlimit64
 readahead	-	readahead	i:iii	__readahead	readahead
 sendfile	-	sendfile	i:iipi	sendfile	sendfile64
-creat		-	creat		Ci:si	creat		creat64
 open		-	open		Ci:siv	__libc_open	__open open __open64 open64
 prlimit		EXTRA	prlimit64	i:iipp	prlimit		prlimit64
 
