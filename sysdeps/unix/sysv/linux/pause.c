@@ -1,6 +1,5 @@
-/* Copyright (C) 2011-2015 Free Software Foundation, Inc.
+/* Copyright (C) 2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Contributed by Chris Metcalf <cmetcalf@tilera.com>, 2011.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -26,6 +25,9 @@
 int
 __libc_pause (void)
 {
+#ifdef __NR_pause
+  return SYSCALL_CANCEL (pause);
+#else
   sigset_t set;
 
   int rc =
@@ -34,6 +36,7 @@ __libc_pause (void)
     rc = SYSCALL_CANCEL (rt_sigsuspend, &set, _NSIG / 8);
 
   return rc;
+#endif
 }
 
 weak_alias (__libc_pause, pause)
