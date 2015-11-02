@@ -17,13 +17,14 @@ include $(firstword $(wildcard $(sysdirs:=/sysctl.mk)))
 sysdep_routines += clone llseek umount umount2 readahead \
 		   setfsuid setfsgid makedev epoll_wait epoll_pwait signalfd \
 		   eventfd eventfd_read eventfd_write prlimit tee vmsplice \
-		   splice
+		   splice open_by_handle_at
 
 CFLAGS-gethostid.c = -fexceptions
 CFLAGS-epoll_pwait.c = -fexceptions
 CFLAGS-tee.c = -fexceptions
 CFLAGS-vmsplice.c = -fexceptions
 CFLAGS-splice.c = -fexceptions
+CFLAGS-open_by_handle_at.c = -fexceptions
 CFLAGS-tst-writev.c += "-DARTIFICIAL_LIMIT=0x80000000-__getpagesize()"
 
 # Note that bits/mman-linux.h is listed here though the file lives in the
