@@ -100,6 +100,7 @@ CFLAGS-err.c = -fexceptions
 CFLAGS-tst-tsearch.c = $(stack-align-test-flags)
 CFLAGS-msync.c = -fexceptions
 CFLAGS-fdatasync.c = -fexceptions
+CFLAGS-fsync.c = -fexceptions
 
 include ../Rules
 
