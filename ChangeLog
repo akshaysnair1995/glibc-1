@@ -41,6 +41,8 @@
 	* elf/tst-audit12mod2.map: New file.
 	* elf/tst-audit12mod3.c: New file.
 
+=======
+>>>>>>> Fix nearbyintl linkage for ia64 (bug 19219)
 2015-11-09  Stefan Liebler  <stli@linux.vnet.ibm.com>
 
 	* sysdeps/s390/longjmp.c (longjmp, _longjmp, siglongjmp):
