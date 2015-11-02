@@ -57,7 +57,6 @@ recvmsg		-	recvmsg		Ci:ipi	__libc_recvmsg	__recvmsg recvmsg
 rename		-	rename		i:ss	rename
 rmdir		-	rmdir		i:s	__rmdir		rmdir
 select		-	select		Ci:iPPPP	__select	__libc_select select
-sendmsg		-	sendmsg		Ci:ipi	__libc_sendmsg	__sendmsg sendmsg
 setdomain	-	setdomainname	i:si	setdomainname
 setegid		-	setegid		i:i	__setegid	setegid
 seteuid		-	seteuid		i:i	__seteuid	seteuid
