@@ -98,6 +98,7 @@ CFLAGS-getsysstats.c = -fexceptions
 CFLAGS-getusershell.c = -fexceptions
 CFLAGS-err.c = -fexceptions
 CFLAGS-tst-tsearch.c = $(stack-align-test-flags)
+CFLAGS-msync.c = -fexceptions
 
 include ../Rules
 
