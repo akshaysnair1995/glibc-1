@@ -35,5 +35,6 @@
 #define __ASSUME_RECVMMSG_SYSCALL       1
 #define __ASSUME_SENDMMSG_SYSCALL       1
 #define __ASSUME_SENDMSG_SYSCALL	1
+#define __ASSUME_RECVMSG_SYSCALL	1
 
 #include_next <kernel-features.h>

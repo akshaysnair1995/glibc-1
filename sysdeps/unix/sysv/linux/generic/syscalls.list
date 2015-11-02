@@ -24,4 +24,3 @@ getpeername	-	getpeername	i:ipp	__getpeername	getpeername
 setsockopt	-	setsockopt	i:iiibn	__setsockopt	setsockopt
 getsockopt	-	getsockopt	i:iiiBN	__getsockopt	getsockopt
 shutdown	-	shutdown	i:ii	__shutdown	shutdown
-recvmsg		-	recvmsg		Ci:ipi	__libc_recvmsg	__recvmsg recvmsg

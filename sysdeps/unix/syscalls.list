@@ -52,8 +52,6 @@ read		-	read		Ci:ibn	__libc_read	__read read
 readlink	-	readlink	i:spi	__readlink	readlink
 readv		-	readv		Ci:ipi	__readv		readv
 reboot		-	reboot		i:i	reboot
-recvfrom	-	recvfrom	Ci:ibniBN	__libc_recvfrom __recvfrom recvfrom
-recvmsg		-	recvmsg		Ci:ipi	__libc_recvmsg	__recvmsg recvmsg
 rename		-	rename		i:ss	rename
 rmdir		-	rmdir		i:s	__rmdir		rmdir
 select		-	select		Ci:iPPPP	__select	__libc_select select
