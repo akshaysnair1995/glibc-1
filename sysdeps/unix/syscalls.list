@@ -84,4 +84,3 @@ uname		-	uname		i:p	__uname		uname
 unlink		-	unlink		i:s	__unlink	unlink
 utimes		-	utimes		i:sp	__utimes	utimes
 vhangup		-	vhangup		i:i	vhangup
-writev		-	writev		Ci:ipi	__writev	writev
