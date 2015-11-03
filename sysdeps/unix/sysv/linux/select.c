@@ -1,6 +1,5 @@
 /* Copyright (C) 2011-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Contributed by Chris Metcalf <cmetcalf@tilera.com>, 2011.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -29,10 +28,19 @@
    descriptors, or -1 for errors.  */
 
 int
-__select(int nfds, fd_set *readfds,
-         fd_set *writefds, fd_set *exceptfds,
-         struct timeval *timeout)
+__select (int nfds, fd_set *readfds,
+	  fd_set *writefds, fd_set *exceptfds,
+	  struct timeval *timeout)
 {
+#ifdef __NR_select
+
+# ifdef __NR__newselect
+#  undef __NR_select
+#  define __NR_select __NR__newselect
+#endif
+
+  return SYSCALL_CANCEL (select, nfds, readfds, writefds, exceptfds, timeout);
+#else
   int result;
   struct timespec ts, *tsp = NULL;
 
@@ -55,6 +63,7 @@ __select(int nfds, fd_set *readfds,
     }
 
   return result;
+#endif
 }
 libc_hidden_def (__select)
 

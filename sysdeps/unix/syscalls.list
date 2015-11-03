@@ -48,7 +48,6 @@ readlink	-	readlink	i:spi	__readlink	readlink
 reboot		-	reboot		i:i	reboot
 rename		-	rename		i:ss	rename
 rmdir		-	rmdir		i:s	__rmdir		rmdir
-select		-	select		Ci:iPPPP	__select	__libc_select select
 setdomain	-	setdomainname	i:si	setdomainname
 setegid		-	setegid		i:i	__setegid	setegid
 seteuid		-	seteuid		i:i	__seteuid	seteuid
