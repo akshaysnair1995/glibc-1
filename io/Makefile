@@ -101,6 +101,7 @@ CFLAGS-fallocate64.c = -fexceptions
 CFLAGS-sync_file_range.c = -fexceptions
 CFLAGS-creat.c = -fexceptions
 CFLAGS-creat64.c = -fexceptions
+CFLAGS-write.c = -fexceptions
 
 CFLAGS-test-stat.c = -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
 CFLAGS-test-lfs.c = -D_LARGEFILE64_SOURCE

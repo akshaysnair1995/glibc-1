@@ -86,5 +86,4 @@ uname		-	uname		i:p	__uname		uname
 unlink		-	unlink		i:s	__unlink	unlink
 utimes		-	utimes		i:sp	__utimes	utimes
 vhangup		-	vhangup		i:i	vhangup
-write		-	write		Ci:ibn	__libc_write	__write write
 writev		-	writev		Ci:ipi	__writev	writev
