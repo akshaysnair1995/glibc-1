@@ -44,7 +44,6 @@ mprotect	-	mprotect	i:aii	__mprotect	mprotect
 munmap		-	munmap		i:ai	__munmap	munmap
 profil		-	profil		i:piii	__profil	profil
 ptrace		-	ptrace		i:iiii	ptrace
-read		-	read		Ci:ibn	__libc_read	__read read
 readlink	-	readlink	i:spi	__readlink	readlink
 readv		-	readv		Ci:ipi	__readv		readv
 reboot		-	reboot		i:i	reboot

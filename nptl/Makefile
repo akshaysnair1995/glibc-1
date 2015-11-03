@@ -213,6 +213,7 @@ CFLAGS-msync.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-fdatasync.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-fsync.c = -fexceptions -fasynchronous-unwind-tables
 CFLAGS-write.c = -fexceptions -fasynchronous-unwind-tables
+CFLAGS-read.c = -fexceptions -fasynchronous-unwind-tables
 
 CFLAGS-pt-system.c = -fexceptions
 
