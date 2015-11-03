@@ -119,6 +119,8 @@ ENTRY(name);					\
 #define __SYSCALL_LL_O(__val)   (__val)
 #define __SYSCALL_LL_O64(__val) (__val)
 
+#define __SYSVMSG_IPC_ARG(__msgp, __msgtyp) (__msgp), (__msgtyp)
+
 #define __SYSCALL_STRING						\
 	"ta	0x6d;"							\
 	"bcc,pt	%%xcc, 1f;"						\

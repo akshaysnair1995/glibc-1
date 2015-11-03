@@ -23,26 +23,21 @@
 #include <sysdep-cancel.h>
 #include <sys/syscall.h>
 
-/* Kludge to work around Linux' restriction of only up to five
-   arguments to a system call.  */
-struct ipc_kludge
-  {
-    void *msgp;
-    long int msgtyp;
-  };
-
-
 ssize_t
 __libc_msgrcv (int msqid, void *msgp, size_t msgsz, long int msgtyp,
 	       int msgflg)
 {
+#ifdef __NR_msgrcv
+  return SYSCALL_CANCEL (msgrcv, msqid, msgp, msgsz, msgtyp, msgflg);
+#else
+# ifndef __SYSVMSG_IPC_ARG
   /* The problem here is that Linux' calling convention only allows up to
      fives parameters to a system call.  */
-  struct ipc_kludge tmp;
-
-  tmp.msgp = msgp;
-  tmp.msgtyp = msgtyp;
-
-  return SYSCALL_CANCEL (ipc, IPCOP_msgrcv, msqid, msgsz, msgflg, &tmp);
+#  define __SYSVMSG_IPC_ARG(__msgp, __msgtyp) \
+     ((long []) { (long) (msgp), msgtyp })
+# endif
+  return SYSCALL_CANCEL (ipc, IPCOP_msgrcv, msqid, msgsz, msgflg,
+			 __SYSVMSG_IPC_ARG (msgp, msgtyp));
+#endif
 }
 weak_alias (__libc_msgrcv, msgrcv)
