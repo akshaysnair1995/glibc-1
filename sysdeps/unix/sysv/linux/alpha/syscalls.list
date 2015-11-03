@@ -2,7 +2,6 @@
 
 oldmsgctl	EXTRA	msgctl		i:iip	__old_msgctl	msgctl@GLIBC_2.0
 msgget		-	msgget		i:ii	__msgget	msgget
-msgsnd		-	msgsnd		Ci:ibni	__msgsnd	msgsnd
 shmat		-	osf_shmat	i:ipi	__shmat		shmat
 oldshmctl	EXTRA	shmctl		i:iip	__old_shmctl	shmctl@GLIBC_2.0
 shmdt		-	shmdt		i:s	__shmdt		shmdt
