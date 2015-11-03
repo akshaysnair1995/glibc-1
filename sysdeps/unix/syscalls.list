@@ -67,7 +67,6 @@ settimeofday	-	settimeofday	i:PP	__settimeofday	settimeofday
 setuid		-	setuid		i:i	__setuid	setuid
 shutdown	-	shutdown	i:ii	shutdown
 sigaction	-	sigaction	i:ipp	__sigaction	sigaction
-sigsuspend	-	sigsuspend	Ci:p	sigsuspend
 socket		-	socket		i:iii	__socket	socket
 socketpair	-	socketpair	i:iiif	socketpair
 sstk		-	sstk		b:i	sstk
