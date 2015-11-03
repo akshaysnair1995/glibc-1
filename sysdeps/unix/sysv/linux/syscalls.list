@@ -40,7 +40,6 @@ mount		EXTRA	mount		i:sssip	__mount	mount
 mremap		EXTRA	mremap		b:ainip	__mremap	mremap
 munlock		-	munlock		i:ai	munlock
 munlockall	-	munlockall	i:	munlockall
-nanosleep	-	nanosleep	Ci:pp	__nanosleep	nanosleep
 nfsservctl	EXTRA	nfsservctl	i:ipp	nfsservctl
 personality	EXTRA	personality	i:i	__personality	personality
 pipe		-	pipe		i:f	__pipe		pipe
