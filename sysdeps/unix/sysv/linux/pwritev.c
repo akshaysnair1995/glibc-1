@@ -19,10 +19,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <sys/param.h>
-#if __WORDSIZE == 64 && !defined PWRITEV
-/* Hide the pwritev64 declaration.  */
-# define pwritev64 __redirect_pwritev64
-#endif
 #include <sys/uio.h>
 
 #include <sysdep-cancel.h>
@@ -35,11 +31,8 @@
 # define PWRITEV_REPLACEMENT __atomic_pwritev_replacement
 # define PWRITE __pwrite
 # define OFF_T off_t
+# define OFF_ARG(__x) __SYSCALL_LL_O (__x)
 #endif
-
-#define LO_HI_LONG(val) \
-  (off_t) val,								\
-  (off_t) ((((uint64_t) (val)) >> (sizeof (long) * 4)) >> (sizeof (long) * 4))
 
 #ifndef __ASSUME_PWRITEV
 static ssize_t PWRITEV_REPLACEMENT (int, const struct iovec *,
@@ -53,7 +46,8 @@ PWRITEV (int fd, const struct iovec *vector, int count, OFF_T offset)
 #ifdef __NR_pwritev
   ssize_t result;
 
-  result = SYSCALL_CANCEL (pwritev, fd, vector, count, LO_HI_LONG (offset));
+  result = SYSCALL_CANCEL (pwritev, fd, vector, count,
+			   __ALIGNMENT_ARG OFF_ARG (offset));
 
 # ifdef __ASSUME_PWRITEV
   return result;
@@ -69,10 +63,6 @@ PWRITEV (int fd, const struct iovec *vector, int count, OFF_T offset)
   return PWRITEV_REPLACEMENT (fd, vector, count, offset);
 #endif
 }
-#if __WORDSIZE == 64 && defined pwritev64
-# undef pwritev64
-strong_alias (pwritev, pwritev64)
-#endif
 
 #ifndef __ASSUME_PWRITEV
 # undef PWRITEV
