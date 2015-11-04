@@ -19,10 +19,6 @@
 #include <stddef.h>
 #include <sys/param.h>
 #include <stdint.h>
-#if __WORDSIZE == 64
-/* Hide the preadv64 declaration.  */
-# define preadv64 __redirect_preadv64
-#endif
 #include <sys/uio.h>
 
 #include <sysdep-cancel.h>
@@ -35,11 +31,8 @@
 # define PREADV_REPLACEMENT __atomic_preadv_replacement
 # define PREAD __pread
 # define OFF_T off_t
+# define OFF_ARG(__x) __SYSCALL_LL_O (__x)
 #endif
-
-#define LO_HI_LONG(val) \
-  (off_t) val,								\
-  (off_t) ((((uint64_t) (val)) >> (sizeof (long) * 4)) >> (sizeof (long) * 4))
 
 #ifndef __ASSUME_PREADV
 static ssize_t PREADV_REPLACEMENT (int, const struct iovec *,
@@ -53,7 +46,8 @@ PREADV (int fd, const struct iovec *vector, int count, OFF_T offset)
 #ifdef __NR_preadv
   ssize_t result;
 
-  result = SYSCALL_CANCEL (preadv, fd, vector, count, LO_HI_LONG (offset));
+  result = SYSCALL_CANCEL (preadv, fd, vector, count,
+			   __ALIGNMENT_ARG OFF_ARG (offset));
 
 # ifdef __ASSUME_PREADV
   return result;
@@ -69,10 +63,6 @@ PREADV (int fd, const struct iovec *vector, int count, OFF_T offset)
   return PREADV_REPLACEMENT (fd, vector, count, offset);
 #endif
 }
-#if __WORDSIZE == 64
-# undef preadv64
-strong_alias (preadv, preadv64)
-#endif
 
 #ifndef __ASSUME_PREADV
 # undef PREADV
