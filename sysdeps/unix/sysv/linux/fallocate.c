@@ -26,8 +26,7 @@ fallocate (int fd, int mode, __off_t offset, __off_t len)
 {
 #ifdef __NR_fallocate
   return SYSCALL_CANCEL (fallocate, fd, mode,
-			 __LONG_LONG_PAIR (offset >> 31, offset),
-			 __LONG_LONG_PAIR (len >> 31, len));
+			 __SYSCALL_LL_O (offset), __SYSCALL_LL_O (len));
 #else
   __set_errno (ENOSYS);
   return -1;
