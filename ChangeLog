@@ -1,5 +1,9 @@
 2015-11-10  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 
+	[BZ #16364]
+	* sysdeps/unix/sysv/linux/sleep.c (__sleep): Simplify code to use
+	nanosleep without requiring to handle spurious wakeups.
+
 	[BZ #19219]
 	* sysdeps/ia64/fpu/s_nearbyintl.S (__nearbyint): Define and
 	weak_alias to nearbyintl.
