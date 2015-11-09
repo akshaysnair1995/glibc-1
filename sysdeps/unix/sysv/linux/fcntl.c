@@ -23,6 +23,10 @@
 
 #include <sys/syscall.h>
 
+#ifdef __NR_fcntl64
+# undef __NR_fcntl
+# define __NR_fcntl __NR_fcntl64
+#endif
 
 static int
 do_fcntl (int fd, int cmd, void *arg)
@@ -67,16 +71,14 @@ __libc_fcntl (int fd, int cmd, ...)
   arg = va_arg (ap, void *);
   va_end (ap);
 
-  if (SINGLE_THREAD_P || cmd != F_SETLKW)
-    return do_fcntl (fd, cmd, arg);
+  if (cmd == F_SETLKW || cmd == F_SETLKW64)
+    {
+      if (SINGLE_THREAD_P)
+	return INLINE_SYSCALL (fcntl, 3, fd, cmd, arg);
+      return SYSCALL_CANCEL (fcntl, fd, cmd, arg);
+    }
 
-  int oldtype = LIBC_CANCEL_ASYNC ();
-
-  int result = do_fcntl (fd, cmd, arg);
-
-  LIBC_CANCEL_RESET (oldtype);
-
-  return result;
+  return do_fcntl (fd, cmd, arg);
 }
 libc_hidden_def (__libc_fcntl)
 
