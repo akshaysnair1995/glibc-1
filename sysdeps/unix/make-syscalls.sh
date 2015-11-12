@@ -12,7 +12,6 @@
 #
 # Syscall Signature Prefixes:
 #
-# C: cancellable (i.e., this syscall is a cancellation point)
 # E: errno and return value are not set by the call
 # V: errno is not set, but errno or zero (success) is returned from the call
 #
@@ -164,11 +163,9 @@ while read file srcfile caller syscall args strong weak; do
   ;;
   esac
 
-  cancellable=0
   noerrno=0
   errval=0
   case $args in
-  C*) cancellable=1; args=`echo $args | sed 's/C:\?//'`;;
   E*) noerrno=1; args=`echo $args | sed 's/E:\?//'`;;
   V*) errval=1; args=`echo $args | sed 's/V:\?//'`;;
   esac
@@ -251,7 +248,6 @@ while read file srcfile caller syscall args strong weak; do
 	(echo '#define SYSCALL_NAME $syscall'; \\
 	 echo '#define SYSCALL_NARGS $nargs'; \\
 	 echo '#define SYSCALL_SYMBOL $strong'; \\
-	 echo '#define SYSCALL_CANCELLABLE $cancellable'; \\
 	 echo '#define SYSCALL_NOERRNO $noerrno'; \\
 	 echo '#define SYSCALL_ERRVAL $errval'; \\
 	 echo '#include <syscall-template.S>'; \\"

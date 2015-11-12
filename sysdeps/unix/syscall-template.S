@@ -41,11 +41,10 @@
    instructions long and the untrained eye might not distinguish them from
    some compiled code that inexplicably lacks source line information.  */
 
-#if SYSCALL_CANCELLABLE
-# include <sysdep-cancel.h>
-#else
-# include <sysdep.h>
+#ifdef SYSCALL_CANCELLABLE
+# error "SYSCALL_CANCELLABLE defined"
 #endif
+#include <sysdep.h>
 
 /* This indirection is needed so that SYMBOL gets macro-expanded.  */
 #define syscall_hidden_def(SYMBOL)		hidden_def (SYMBOL)

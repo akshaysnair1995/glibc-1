@@ -1,6 +1,6 @@
-/* Copyright (C) 1993-2015 Free Software Foundation, Inc.
+/* Copyright (C) 2002-2015 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Contributed by David Mosberger <davidm@cs.arizona.edu>, 1995.
+   Contributed by Jakub Jelinek <jakub@redhat.com>, 2002.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
@@ -13,20 +13,26 @@
    Lesser General Public License for more details.
 
    You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library.  If not, see
+   License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
-/* sigsuspend is a special syscall since it needs to dereference the
-   sigset.  This will have to change when we have more than 64 signals.  */
+#include <sysdep.h>
+#include <tls.h>
+#include <nptl/pthreadP.h>
 
-#include <sysdep-cancel.h>
+#if IS_IN (libc) || IS_IN (libpthread) || IS_IN (librt)
 
-#undef PSEUDO_PREPARE_ARGS
-#define PSEUDO_PREPARE_ARGS	ldq	a0, 0(a0);
+# define SINGLE_THREAD_P \
+  __builtin_expect (THREAD_GETMEM (THREAD_SELF,				      \
+				   header.multiple_threads) == 0, 1)
 
-PSEUDO(__sigsuspend, sigsuspend, 1)
-	ret
-PSEUDO_END(__sigsuspend)
-libc_hidden_def (__sigsuspend)
-weak_alias (__sigsuspend, sigsuspend)
-strong_alias (__sigsuspend, __libc_sigsuspend)
+#else
+
+# define SINGLE_THREAD_P (1)
+# define NO_CANCELLATION 1
+
+#endif
+
+#define RTLD_SINGLE_THREAD_P \
+  __builtin_expect (THREAD_GETMEM (THREAD_SELF, \
+				   header.multiple_threads) == 0, 1)
