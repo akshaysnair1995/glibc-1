@@ -254,7 +254,7 @@ struct pthread
 #define HAVE_CLEANUP_JMP_BUF
 
   /* Flags determining processing of cancellation.  */
-  int cancelhandling;
+  volatile int cancelhandling;
   /* Bit set if cancellation is disabled.  */
 #define CANCELSTATE_BIT		0
 #define CANCELSTATE_BITMASK	(0x01 << CANCELSTATE_BIT)
