@@ -3,8 +3,6 @@
 
 /* Support for compatible assembler handling.  */
 
-#define ASM_SIZE_DIRECTIVE(name) .size name,.-name
-
 #define LOCAL_LIBM_ENTRY(name)			\
 	.proc name;				\
  name:

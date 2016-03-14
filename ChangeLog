@@ -1,3 +1,20 @@
+2016-05-04  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+
+	* sysdeps/aarch64/sysdep.h (ASM_SIZE_DIRECTIVE): Remove macro.
+	* sysdeps/i386/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/ia64/fpu/libm-symbols.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/microblaze/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/nios2/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/powerpc/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/s390/s390-32/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/s390/s390-64/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/sh/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/tile/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/unix/sysv/linux/powerpc/powerpc64/sysdep.h
+	(ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/x86_64/sysdep.h (ASM_SIZE_DIRECTIVE): Likewise.
+	* sysdeps/generic/sysdep.h (ASM_SIZE_DIRECTIVE): New macro
+
 2016-05-04  Florian Weimer  <fweimer@redhat.com>
 
 	* malloc/malloc-internal.h: Adjust header file guard.

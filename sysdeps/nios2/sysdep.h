@@ -22,8 +22,6 @@
 
 /* Syntactic details of assembler.  */
 
-#define ASM_SIZE_DIRECTIVE(name) .size name,.-name
-
 #define ENTRY(name)						 \
   .globl C_SYMBOL_NAME(name);					 \
   .type C_SYMBOL_NAME(name),%function;				 \

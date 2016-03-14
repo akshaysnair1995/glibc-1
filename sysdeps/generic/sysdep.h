@@ -24,6 +24,10 @@
 #endif
 
 #ifdef __ASSEMBLER__
+
+/* Define macro to set symbol size.  */
+#define ASM_SIZE_DIRECTIVE(name) .size name,.-name
+
 /* Mark the end of function named SYM.  This is used on some platforms
    to generate correct debugging information.  */
 # ifndef END

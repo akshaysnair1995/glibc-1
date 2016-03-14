@@ -23,7 +23,6 @@
 /* Syntactic details of assembler.  */
 
 #define ALIGNARG(log2) log2
-#define ASM_SIZE_DIRECTIVE(name) .size name,.-name
 
 #ifdef SHARED
 #define PLTJMP(_x)	_x##@PLT

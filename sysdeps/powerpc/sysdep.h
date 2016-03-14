@@ -166,7 +166,6 @@
 
 /* This seems to always be the case on PPC.  */
 #define ALIGNARG(log2) log2
-#define ASM_SIZE_DIRECTIVE(name) .size name,.-name
 
 #else
 

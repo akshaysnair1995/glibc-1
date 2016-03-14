@@ -23,7 +23,6 @@
 /* Syntactic details of assembler.  */
 
 # define ALIGNARG(log2) log2
-# define ASM_SIZE_DIRECTIVE(name) .size name,.-name
 
 /* Define an entry point visible from C.  */
 # define ENTRY(name)                          \

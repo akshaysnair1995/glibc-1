@@ -41,8 +41,6 @@
 
 /* ELF uses byte-counts for .align, most others use log2 of count of bytes.  */
 #define ALIGNARG(log2) 1<<log2
-#define ASM_SIZE_DIRECTIVE(name) .size name,.-name;
-
 
 /* Define an entry point visible from C.
 
