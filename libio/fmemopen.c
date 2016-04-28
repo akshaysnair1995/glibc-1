@@ -35,11 +35,11 @@ typedef struct fmemopen_cookie_struct fmemopen_cookie_t;
 struct fmemopen_cookie_struct
 {
   char        *buffer;   /* memory buffer.  */
-  int         mybuffer;  /* allocated my buffer?  */
   int         append;    /* buffer open for append?  */
   size_t      size;      /* buffer length in bytes.  */
   _IO_off64_t pos;       /* current position at the buffer.  */
   size_t      maxpos;    /* max position in buffer.  */
+  char        data[];
 };
 
 
@@ -136,11 +136,7 @@ fmemopen_seek (void *cookie, _IO_off64_t *p, int w)
 static int
 fmemopen_close (void *cookie)
 {
-  fmemopen_cookie_t *c = (fmemopen_cookie_t *) cookie;
-
-  if (c->mybuffer)
-    free (c->buffer);
-  free (c);
+  free (cookie);
 
   return 0;
 }
@@ -153,23 +149,24 @@ __fmemopen (void *buf, size_t len, const char *mode)
   fmemopen_cookie_t *c;
   FILE *result;
 
-  c = (fmemopen_cookie_t *) calloc (sizeof (fmemopen_cookie_t), 1);
+  size_t clen = sizeof (fmemopen_cookie_t);
+  if (buf == NULL)
+    {
+      if (__glibc_unlikely (len >= (SIZE_MAX - clen)))
+	{
+	  __set_errno (ENOMEM);
+	  return NULL;
+	}
+      clen += len;
+    }
+
+  c = (fmemopen_cookie_t *) calloc (clen, 1);
   if (c == NULL)
     return NULL;
 
-  c->mybuffer = (buf == NULL);
+  c->buffer = c->data;
 
-  if (c->mybuffer)
-    {
-      c->buffer = (char *) malloc (len);
-      if (c->buffer == NULL)
-	{
-	  free (c);
-	  return NULL;
-	}
-      c->buffer[0] = '\0';
-    }
-  else
+  if (buf != NULL)
     {
       if (__glibc_unlikely ((uintptr_t) len > -(uintptr_t) buf))
 	{
@@ -214,12 +211,7 @@ __fmemopen (void *buf, size_t len, const char *mode)
 
   result = _IO_fopencookie (c, mode, iof);
   if (__glibc_unlikely (result == NULL))
-    {
-      if (c->mybuffer)
-	free (c->buffer);
-
-      free (c);
-    }
+    free (c);
 
   return result;
 }

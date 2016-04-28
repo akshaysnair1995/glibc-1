@@ -1,3 +1,11 @@
+2016-09-21  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+
+	* libio/fmemopen.c (fmemopen_cookie_t): Remove mybuffer and add
+	flexible array member.
+	(fmemopen_close): Do no free the internal buffer.
+	(__fmemopen): Use C99 flexible array to allocate both the
+	fmemopen cookie and internal buffer (for null arguments).
+
 2016-09-21  Joseph Myers  <joseph@codesourcery.com>
 
 	* sysdeps/generic/stdint.h: Define
