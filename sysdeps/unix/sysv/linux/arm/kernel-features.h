@@ -24,7 +24,6 @@
    configuration.  */
 #if __LINUX_KERNEL_VERSION < 0x030E03
 # undef __ASSUME_REQUEUE_PI
-# undef __ASSUME_SET_ROBUST_LIST
 #endif
 
 /* Define this if your 32-bit syscall API requires 64-bit register
