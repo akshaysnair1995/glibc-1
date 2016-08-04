@@ -57,6 +57,69 @@ error_printf (int line, const char *fmt, ...)
   { error_printf(__LINE__, __VA_ARGS__); return 1; }
 
 static int
+do_test_bz15298 (void)
+{
+  CHAR_T *buf;
+  size_t size;
+  size_t ret;
+
+  FILE *fp = OPEN_MEMSTREAM (&buf, &size);
+  if (fp == NULL)
+    ERROR_RET1 ("%s failed\n", S(OPEN_MEMSTREAM));
+
+  /* Move internal position but do not write any bytes.  Final size should
+     be 0.  */
+  if (fseek (fp, 10, SEEK_SET) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fseek (fp, 20, SEEK_CUR) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fseek (fp, 30, SEEK_CUR) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fflush (fp) != 0)
+    ERROR_RET1 ("fflush failed (errno = %d)\n", errno);
+  if (size != 0)
+    ERROR_RET1 ("size != 0 (got %zu)\n", size);
+
+  /* Now write some bytes and change internal position.  Final size should
+     be based on written bytes.  */
+  if (fseek (fp, 0, SEEK_SET) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if ((ret = FWRITE (W("abc"), 1, 3, fp)) != 3)
+    ERROR_RET1 ("%s failed (errno = %d)\n", S(FWRITE), errno);
+  if (fseek (fp, 20, SEEK_CUR) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fseek (fp, 30, SEEK_CUR) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fflush (fp) != 0)
+    ERROR_RET1 ("fflush failed (errno = %d)\n", errno);
+  if (size != 3)
+    ERROR_RET1 ("size != 3 (got %zu)\n", size);
+
+  /* Finally set position, write some bytes and change position again.  Final
+     size should be based again on write position.  */
+  size_t offset = 2048;
+  if (fseek (fp, offset, SEEK_SET) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if ((ret = FWRITE (W("abc"), 1, 3, fp)) != 3)
+    ERROR_RET1 ("%s failed (errno = %d)\n", S(FWRITE), errno);
+  if (fseek (fp, 20, SEEK_CUR) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fseek (fp, 30, SEEK_CUR) == -1)
+    ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
+  if (fflush (fp) != 0)
+    ERROR_RET1 ("fflush failed (errno = %d)\n", errno);
+  if (size != offset + 3)
+    ERROR_RET1 ("size != %zu (got %zu)\n", offset + 3, size);
+
+  if (fclose (fp) != 0)
+    ERROR_RET1 ("fclose failed (errno = %d\n", errno);
+
+  free (buf);
+
+  return 0;
+}
+
+static int
 do_test_bz18241 (void)
 {
   CHAR_T *buf;
@@ -124,15 +187,17 @@ do_test_bz20181 (void)
   if (fflush (fp) != 0)
     ERROR_RET1 ("fflush failed (errno = %d)\n", errno);
 
-  /* Avoid truncating the buffer on close.  */
+  /* fseek updates the internal buffer, but open_memstream should set the
+     size to smaller of the buffer size and number of bytes written.  Since
+     it was written just character ('z') final size should be 1.  */
   if (fseek (fp, 3, SEEK_SET) != 0)
     ERROR_RET1 ("fseek failed (errno = %d)\n", errno);
 
   if (fclose (fp) != 0)
     ERROR_RET1 ("fclose failed (errno = %d\n", errno);
 
-  if (size != 3)
-    ERROR_RET1 ("size != 3\n");
+  if (size != 1)
+    ERROR_RET1 ("size != 1 (got %zu)\n", size);
 
   if (buf[0] != W('z')
       || buf[1] != W('b')
@@ -155,6 +220,7 @@ do_test (void)
 
   mcheck_pedantic (mcheck_abort);
 
+  ret += do_test_bz15298 ();
   ret += do_test_bz18241 ();
   ret += do_test_bz20181 ();
 

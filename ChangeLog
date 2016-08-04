@@ -1,5 +1,27 @@
 2016-09-30  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 
+	[BZ #15298]
+	* libio/memstream.c  (_IO_FILE_memstream): Add prevwriteptr and
+	seekwriteptr fields.
+	(_IO_mem_seekoff): New function.
+	(_IO_mem_jumps): Use _IO_mem_seekoff.
+	(__open_memstream): Initialize prevwriteptr and seekwriteptr.
+	(_IO_mem_sync): Update sizeloc based on written bytes instead of buffer
+	current position.
+	(_IO_mem_finish): Likewise.
+	* libio/wmemstream.c  (_IO_FILE_wmemstream): Add prevwriteptr and
+	seekwriteptr fields.
+	(_IO_wmem_seekoff): New function.
+	(_IO_wmem_jumps): Use _IO_mem_seekoff.
+	(__open_wmemstream): Initialize prevwriteptr and seekwriteptr.
+	(_IO_mem_wsync): Update sizeloc based on written bytes instead of buffer
+	current position.
+	(_IO_mem_wfinish): Likewise.
+	* libio/tst-memstream3.c (do_test_bz15298): New function.
+	(do_test_bz18241): Check for expected size after a fseek followed by a
+	fflush.
+	(do_test): Call do_test_bz15298.
+
 	[BZ #18241]
 	[BZ #20181]
 	* libio/Makefile (test): Add tst-memstream3 and tst-wmemstream3.
