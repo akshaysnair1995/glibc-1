@@ -25,7 +25,6 @@
    emulating LL/SC.  */
 #if __mips == 1 || defined _MIPS_ARCH_R5900
 # undef __ASSUME_REQUEUE_PI
-# undef __ASSUME_SET_ROBUST_LIST
 #endif
 
 /* Define this if your 32-bit syscall API requires 64-bit register
