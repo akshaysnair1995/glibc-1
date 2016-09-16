@@ -48,14 +48,8 @@ int *__libc_multiple_threads_ptr attribute_hidden;
 size_t __static_tls_size;
 size_t __static_tls_align_m1;
 
-#ifndef __ASSUME_SET_ROBUST_LIST
 /* Negative if we do not have the system call and we can use it.  */
-int __set_robust_list_avail;
-# define set_robust_list_not_avail() \
-  __set_robust_list_avail = -1
-#else
-# define set_robust_list_not_avail() do { } while (0)
-#endif
+int __set_robust_list_avail = -1;
 
 #ifndef __ASSUME_FUTEX_CLOCK_REALTIME
 /* Nonzero if we do not have FUTEX_CLOCK_REALTIME.  */
@@ -335,9 +329,9 @@ __pthread_initialize_minimal_internal (void)
     INTERNAL_SYSCALL_DECL (err);
     int res = INTERNAL_SYSCALL (set_robust_list, err, 2, &pd->robust_head,
 				sizeof (struct robust_list_head));
-    if (INTERNAL_SYSCALL_ERROR_P (res, err))
+    if (!INTERNAL_SYSCALL_ERROR_P (res, err))
+      __set_robust_list_avail = 1;
 #endif
-      set_robust_list_not_avail ();
   }
 
 #ifdef __NR_futex
