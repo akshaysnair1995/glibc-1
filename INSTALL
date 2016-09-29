@@ -359,6 +359,14 @@ build the GNU C Library:
      better code.  As of release time, GCC 5.3 is the newest compiler
      verified to work to build the GNU C Library.
 
+     For multi-arch support it is recommended to use a GCC with
+     gnu-indirect-function support as it is used to generate ifunc'ed
+     symbols with correct debug-information.  This support can either be
+     enabled by configuring GCC with '--enable-gnu-indirect-function' or
+     by enabling it by default by setting
+     'default_gnu_indirect_function' variable for a particular
+     architecture in gcc source file 'gcc/config.gcc'.
+
      You can use whatever compiler you like to compile programs that use
      the GNU C Library.
 
