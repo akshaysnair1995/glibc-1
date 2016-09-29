@@ -737,27 +737,64 @@ for linking")
 # define compat_data_section .section ".data.compat", "aw";
 #endif
 
-/* Marker used for indirection function symbols.  */
-#define libc_ifunc(name, expr)						\
-  extern void *name##_ifunc (void) __asm__ (#name);			\
-  void *name##_ifunc (void)						\
+/* Helper / base  macros for indirect function symbols.  */
+#define __ifunc_resolver(type_name, name, expr, arg, init, classifier)	\
+  classifier void *name##_ifunc (arg)					\
   {									\
-    INIT_ARCH ();							\
-    __typeof (name) *res = expr;					\
+    init ();								\
+    __typeof (type_name) *res = expr;					\
     return res;								\
-  }									\
-  __asm__ (".type " #name ", %gnu_indirect_function");
+  }
+
+#ifdef HAVE_GCC_IFUNC
+# define __ifunc(type_name, name, expr, arg, init)			\
+  extern __typeof (type_name) name __attribute__			\
+			      ((ifunc (#name "_ifunc")));		\
+  __ifunc_resolver (type_name, name, expr, arg, init, static)
+
+# define __ifunc_hidden(type_name, name, expr, arg, init)	\
+  __ifunc (type_name, name, expr, arg, init)
+#else
+/* Gcc does not support __attribute__ ((ifunc (...))).  Use the old behaviour
+   as fallback.  But keep in mind that the debug information for the ifunc
+   resolver functions is not correct.  It contains the ifunc'ed function as
+   DW_AT_linkage_name.  E.g. lldb uses this field and an inferior function
+   call of the ifunc'ed function will fail due to "no matching function for call
+   to ..." because the ifunc'ed function and the resolver function have
+   different signatures.  (Gcc support is disabled at least on a ppc64le
+   Ubuntu 14.04 system.)  */
+
+# define __ifunc(type_name, name, expr, arg, init)			\
+  extern __typeof (type_name) name;					\
+  void *name##_ifunc (arg) __asm__ (#name);				\
+  __ifunc_resolver (type_name, name, expr, arg, init,)			\
+ __asm__ (".type " #name ", %gnu_indirect_function");
+
+# define __ifunc_hidden(type_name, name, expr, arg, init)		\
+  extern __typeof (type_name) __libc_##name;				\
+  __ifunc (type_name, __libc_##name, expr, arg, init)			\
+  strong_alias (__libc_##name, name);
+#endif /* !HAVE_GCC_IFUNC  */
+
+/* Use libc_ifunc if your ifunc'ed function has no internal symbol.  */
+#define libc_ifunc(name, expr) __ifunc (name, name, expr, void, INIT_ARCH)
+
+/* Use libc_ifunc_redirected if your ifunc'ed function has an internal symbol
+   which should be a dedicated fallback function instead of ifunc'ed.
+   You have to redirect the function in the header file and use it as
+   redirected_name.  */
+#define libc_ifunc_redirected(redirected_name, name, expr)	\
+  __ifunc (redirected_name, name, expr, void, INIT_ARCH)
+
+/* Use libc_ifunc_hidden if your ifunc'ed function has an internal symbol
+   which should be the ifunc'ed function'.  */
+#define libc_ifunc_hidden(redirected_name, name, expr)			\
+  __ifunc_hidden (redirected_name, name, expr, void, INIT_ARCH)
 
 /* The body of the function is supposed to use __get_cpu_features
    which will, if necessary, initialize the data first.  */
-#define libm_ifunc(name, expr)						\
-  extern void *name##_ifunc (void) __asm__ (#name);			\
-  void *name##_ifunc (void)						\
-  {									\
-    __typeof (name) *res = expr;					\
-    return res;								\
-  }									\
-  __asm__ (".type " #name ", %gnu_indirect_function");
+#define libm_ifunc_init()
+#define libm_ifunc(name, expr) __ifunc (name, name, expr, void, libm_ifunc_init)
 
 #ifdef HAVE_ASM_SET_DIRECTIVE
 # define libc_ifunc_hidden_def1(local, name)				\
