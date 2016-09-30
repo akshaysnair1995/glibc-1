@@ -38,6 +38,7 @@ __warndecl (__warn_memset_zero_len,
 # ifdef __USE_GNU
 #  undef mempcpy
 #  undef stpcpy
+#  undef stpncpy
 # endif
 # ifdef __USE_MISC
 #  undef bcopy
@@ -126,20 +127,29 @@ __NTH (strncpy (char *__restrict __dest, const char *__restrict __src,
   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
 }
 
-/* XXX We have no corresponding builtin yet.  */
+
+#ifdef __USE_GNU
+
+# if !__GNUC_PREREQ (4,7)
 extern char *__stpncpy_chk (char *__dest, const char *__src, size_t __n,
 			    size_t __destlen) __THROW;
 extern char *__REDIRECT_NTH (__stpncpy_alias, (char *__dest, const char *__src,
 					       size_t __n), stpncpy);
+# endif
 
 __fortify_function char *
 __NTH (stpncpy (char *__dest, const char *__src, size_t __n))
 {
+# if !__GNUC_PREREQ (4,7)
   if (__bos (__dest) != (size_t) -1
       && (!__builtin_constant_p (__n) || __n > __bos (__dest)))
     return __stpncpy_chk (__dest, __src, __n, __bos (__dest));
   return __stpncpy_alias (__dest, __src, __n);
+# else
+  return __builtin___stpncpy_chk (__dest, __src, __n, __bos (__dest));
+# endif
 }
+#endif
 
 
 __fortify_function char *

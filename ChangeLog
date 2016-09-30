@@ -1,5 +1,13 @@
 2016-09-30  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
 
+	[BZ #20661]
+	* string/bits/string3 [__USE_GNU] (stpncpy): Add fortify version based
+	on GCC builtin for GCC 4.7 and later.
+	(__stpncpy_chk): Define only for !__GNUC_PREREQ (4,7).
+	(__stpncpy_alias): Likewise.
+
+2016-09-30  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+
 	[BZ #18241]
 	[BZ #20181]
 	* libio/Makefile (test): Add tst-memstream3 and tst-wmemstream3.
