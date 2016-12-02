@@ -20,7 +20,7 @@
 #define _BITS_PTHREADTYPES_H	1
 
 #include <bits/wordsize.h>
-#include <pthreadtypes-common.h>
+#include <bits/pthreadtypes-common.h>
 
 #if __WORDSIZE == 64
 # define __SIZEOF_PTHREAD_ATTR_T 56

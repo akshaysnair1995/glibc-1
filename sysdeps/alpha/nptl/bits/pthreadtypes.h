@@ -19,7 +19,7 @@
 #ifndef _BITS_PTHREADTYPES_H
 #define _BITS_PTHREADTYPES_H	1
 
-#include <pthreadtypes-common.h>
+#include <bits/pthreadtypes-common.h>
 
 #define __SIZEOF_PTHREAD_ATTR_T		56
 #define __SIZEOF_PTHREAD_MUTEXATTR_T	4

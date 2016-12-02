@@ -20,7 +20,7 @@
 #define _BITS_PTHREADTYPES_H	1
 
 #include <endian.h>
-#include <pthreadtypes-common.h>
+#include <bits/pthreadtypes-common.h>
 
 #ifdef __ILP32__
 # define __SIZEOF_PTHREAD_ATTR_T        32

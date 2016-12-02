@@ -354,6 +354,7 @@ struct pthread
      to the function.  */
   void *(*start_routine) (void *);
   void *arg;
+  bool c11;
 
   /* Debug state.  */
   td_eventbuf_t eventbuf;

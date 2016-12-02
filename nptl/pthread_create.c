@@ -329,11 +329,16 @@ START_THREAD_DEFN
       LIBC_PROBE (pthread_start, 3, (pthread_t) pd, pd->start_routine, pd->arg);
 
       /* Run the code the user provided.  */
-#ifdef CALL_THREAD_FCT
-      THREAD_SETMEM (pd, result, CALL_THREAD_FCT (pd));
-#else
-      THREAD_SETMEM (pd, result, pd->start_routine (pd->arg));
-#endif
+      void *ret;
+      if (pd->c11)
+	{
+	  /* Run the code the user provided.  */
+	  int (*start)(void*) = (int (*) (void*)) pd->start_routine;
+	  ret = (void*) (intptr_t) start (pd->arg);
+	}
+      else
+	ret = pd->start_routine (pd->arg);
+      THREAD_SETMEM (pd, result, ret);
     }
 
   /* Call destructors for the thread_local TLS variables.  */
@@ -498,7 +503,6 @@ report_thread_creation (struct pthread *pd)
   return false;
 }
 
-
 int
 __pthread_create_2_1 (pthread_t *newthread, const pthread_attr_t *attr,
 		      void *(*start_routine) (void *), void *arg)
@@ -508,7 +512,8 @@ __pthread_create_2_1 (pthread_t *newthread, const pthread_attr_t *attr,
   const struct pthread_attr *iattr = (struct pthread_attr *) attr;
   struct pthread_attr default_attr;
   bool free_cpuset = false;
-  if (iattr == NULL)
+  bool c11 = (attr == ATTR_C11_THREAD);
+  if (iattr == NULL || c11)
     {
       lll_lock (__default_pthread_attr_lock, LLL_PRIVATE);
       default_attr = __default_pthread_attr;
@@ -566,6 +571,7 @@ __pthread_create_2_1 (pthread_t *newthread, const pthread_attr_t *attr,
      get the information from its thread descriptor.  */
   pd->start_routine = start_routine;
   pd->arg = arg;
+  pd->c11 = c11;
 
   /* Copy the thread attribute flags.  */
   struct pthread *self = THREAD_SELF;
