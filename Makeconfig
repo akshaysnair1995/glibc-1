@@ -839,7 +839,7 @@ endif	# $(+cflags) == ""
 # include files (including ones given in angle brackets) in the parent
 # library source directory, in the include directory, and in the
 # current directory.
-+includes = -I$(..)include $(if $(subdir),$(objpfx:%/=-I%)) \
++includes = -I$(..)include -I$(..)bits $(if $(subdir),$(objpfx:%/=-I%)) \
 	    $(+sysdep-includes) $(includes) \
 	    $(patsubst %/,-I%,$(..)) $(libio-include) -I. $(sysincludes)
 

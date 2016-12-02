@@ -20,12 +20,11 @@
 #define _BITS_PTHREADTYPES_H	1
 
 #include <endian.h>
+#include <pthreadtypes-common.h>
 
 #ifdef __ILP32__
 # define __SIZEOF_PTHREAD_ATTR_T        32
-# define __SIZEOF_PTHREAD_MUTEX_T       32
 # define __SIZEOF_PTHREAD_MUTEXATTR_T    4
-# define __SIZEOF_PTHREAD_COND_T        48
 # define __SIZEOF_PTHREAD_COND_COMPAT_T 48
 # define __SIZEOF_PTHREAD_CONDATTR_T     4
 # define __SIZEOF_PTHREAD_RWLOCK_T      48
@@ -34,9 +33,7 @@
 # define __SIZEOF_PTHREAD_BARRIERATTR_T  4
 #else
 # define __SIZEOF_PTHREAD_ATTR_T        64
-# define __SIZEOF_PTHREAD_MUTEX_T       48
 # define __SIZEOF_PTHREAD_MUTEXATTR_T    8
-# define __SIZEOF_PTHREAD_COND_T        48
 # define __SIZEOF_PTHREAD_COND_COMPAT_T 48
 # define __SIZEOF_PTHREAD_CONDATTR_T     8
 # define __SIZEOF_PTHREAD_RWLOCK_T      56
@@ -62,36 +59,6 @@ typedef union pthread_attr_t pthread_attr_t;
 # define __have_pthread_attr_t1
 #endif
 
-typedef struct __pthread_internal_list
-{
-  struct __pthread_internal_list *__prev;
-  struct __pthread_internal_list *__next;
-} __pthread_list_t;
-
-
-/* Data structures for mutex handling.  The structure of the attribute
-   type is not exposed on purpose.  */
-typedef union
-{
-  struct __pthread_mutex_s
-  {
-    int __lock;
-    unsigned int __count;
-    int __owner;
-    unsigned int __nusers;
-    /* KIND must stay at this position in the structure to maintain
-       binary compatibility with static initializers.  */
-    int __kind;
-    int __spins;
-    __pthread_list_t __list;
-#define __PTHREAD_MUTEX_HAVE_PREV	1
-  } __data;
-  char __size[__SIZEOF_PTHREAD_MUTEX_T];
-  long int __align;
-} pthread_mutex_t;
-
-/* Mutex __spins initializer used by PTHREAD_MUTEX_INITIALIZER.  */
-#define __PTHREAD_SPINS 0
 
 typedef union
 {
@@ -99,25 +66,6 @@ typedef union
   long int __align;
 } pthread_mutexattr_t;
 
-
-/* Data structure for conditional variable handling.  The structure of
-   the attribute type is not exposed on purpose.  */
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __futex;
-    __extension__ unsigned long long int __total_seq;
-    __extension__ unsigned long long int __wakeup_seq;
-    __extension__ unsigned long long int __woken_seq;
-    void *__mutex;
-    unsigned int __nwaiters;
-    unsigned int __broadcast_seq;
-  } __data;
-  char __size[__SIZEOF_PTHREAD_COND_T];
-  long int __align;
-} pthread_cond_t;
 
 typedef union
 {
