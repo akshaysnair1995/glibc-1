@@ -114,7 +114,7 @@ extern int __local_multiple_threads attribute_hidden;
 #  else
 #   define SINGLE_THREAD_P(R)						\
 	mrs     x##R, tpidr_el0;					\
-	sub	x##R, x##R, PTHREAD_SIZEOF;				\
+	sub	x##R, x##R, PTHREAD_PRE_TCB_SIZE;			\
 	ldr	w##R, [x##R, PTHREAD_MULTIPLE_THREADS_OFFSET]
 #  endif
 # endif

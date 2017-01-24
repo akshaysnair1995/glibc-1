@@ -1,3 +1,23 @@
+2017-02-13  Adhemerval Zanella  <adhemerval.zanella@linaro.org>
+
+	* sysdeps/aarch64/Makefile [$(subdir) = elf] (sysdeps-dl-routines):
+	Add tcb-version.
+	* sysdeps/aarch64/Versions [ld] (GLIBC_2.26): Add
+	__libc_tcb_private_ss.
+	* sysdeps/aarch64/nptl/tls.h (tcbprehead_t): New struct.
+	(TLS_PRE_TCB_SIZE): Take tcbprehead_t in consideration.
+	(TLS_DEFINE_INIT_TP): Likewise.
+	(THREAD_SELF): Likewise.
+	(DB_THREAD_SELF): Likewise.
+	* sysdeps/aarch64/tcb-version.c: New file.
+	* sysdeps/unix/sysv/linux/aarch64/ld.abilist (GLIBC_2.26): Add.
+	(__libc_tcb_private_ss): Likewise.
+	* sysdeps/aarch64/nptl/tcb-offsets.sym (PTHREAD_SIZEOF): Rename to
+	PTHREAD_PRE_TCB_SIZE.
+	* sysdeps/unix/sysv/linux/aarch64/sysdep-cancel.h
+	[!IS_IN (libprthread) && !IS_IN (libc) (SINGLE_THREAD_P): Use
+	PTHREAD_PRE_TCB_SIZE instead of PTHREAD_SIZEOF.
+
 2017-02-12  Gabriel F. T. Gomes  <gftg@linux.vnet.ibm.com>
 
 	[BZ #21130]
