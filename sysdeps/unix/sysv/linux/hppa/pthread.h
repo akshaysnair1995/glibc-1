@@ -185,7 +185,7 @@ enum
 
 
 /* Conditional variable handling.  */
-#define PTHREAD_COND_INITIALIZER { { 0, 0, 0, 0, 0, (void *) 0, 0, 0 } }
+#define PTHREAD_COND_INITIALIZER { { {0}, {0}, {0, 0}, {0, 0}, 0, 0, {0, 0} } }
 
 
 /* Cleanup buffers */
@@ -1169,7 +1169,7 @@ __END_DECLS
    want to be forwards compatible, we eventually want to drop the code
    that has to clear the old LT initializer.  */
 #undef PTHREAD_COND_INITIALIZER
-#define PTHREAD_COND_INITIALIZER { { 0, 0, 0, (void *) 0, 0, 0, 0, 0, 0 } }
+#define PTHREAD_COND_INITIALIZER { { {0}, {0}, {0, 0}, {0, 0}, 0, 0, {0, 0} } }
 
 /* The pthread_mutex_t and pthread_rwlock_t initializers are compatible
    only with NPTL. NPTL assumes pthread_rwlock_t is all zero.  */
