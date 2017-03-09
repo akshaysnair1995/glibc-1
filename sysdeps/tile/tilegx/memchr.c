@@ -21,7 +21,7 @@
 #include "string-endian.h"
 
 void *
-__memchr (const void *s, int c, size_t n)
+memchr (const void *s, int c, size_t n)
 {
   const uint64_t *last_word_ptr;
   const uint64_t *p;
@@ -73,5 +73,4 @@ __memchr (const void *s, int c, size_t n)
   ret = ((char *) p) + (CFZ (bits) >> 3);
   return (ret <= last_byte_ptr) ? ret : NULL;
 }
-weak_alias (__memchr, memchr)
 libc_hidden_builtin_def (memchr)

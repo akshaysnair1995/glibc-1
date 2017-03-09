@@ -27,7 +27,7 @@
 ENTRY (__rawmemchr)
 	cbz	w1, L(do_strlen)
 	mov	x2, -1
-	b	__memchr
+	b	memchr
 
 L(do_strlen):
 	mov	x15, x30

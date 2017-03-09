@@ -31,7 +31,7 @@
 
 	.text
 	.align		4
-ENTRY(__memchr)
+ENTRY(memchr)
 	andcc		%o1, 0xff, %o1
 	sll		%o1, 8, %g6
 	andcc		%o0, 3, %g0
@@ -136,7 +136,6 @@ ENTRY(__memchr)
 	 sub		%o0, 3, %o0
 4:	retl
 	 sub		%o0, 4, %o0
-END(__memchr)
+END(memchr)
 
-weak_alias (__memchr, memchr)
 libc_hidden_builtin_def (memchr)

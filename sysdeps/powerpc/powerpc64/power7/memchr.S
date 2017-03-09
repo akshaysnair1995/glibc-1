@@ -21,7 +21,7 @@
 
 /* int [r3] memchr (char *s [r3], int byte [r4], int size [r5])  */
 	.machine  power7
-ENTRY (__memchr)
+ENTRY (memchr)
 	CALL_MCOUNT 3
 	dcbt	0,r3
 	clrrdi  r8,r3,3
@@ -190,6 +190,5 @@ L(small_range):
 	bne	cr6,L(done)
 	blr
 
-END (__memchr)
-weak_alias (__memchr, memchr)
+END (memchr)
 libc_hidden_builtin_def (memchr)

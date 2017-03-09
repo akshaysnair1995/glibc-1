@@ -29,16 +29,15 @@
 #include <string-maskoff.h>
 #include <string-opthr.h>
 
-#undef __memchr
 #undef memchr
 
 #ifdef MEMCHR
-#define __memchr MEMCHR
+#define memchr MEMCHR
 #endif
 
 /* Search no more than N bytes of S for C.  */
 void *
-__memchr (void const *s, int c_in, size_t n)
+memchr (void const *s, int c_in, size_t n)
 {
   const op_t *word_ptr, *lword;
   op_t repeated_c, before_mask, word;
@@ -84,6 +83,5 @@ __memchr (void const *s, int c_in, size_t n)
 }
 
 #ifndef MEMCHR
-weak_alias (__memchr, memchr)
 libc_hidden_builtin_def (memchr)
 #endif

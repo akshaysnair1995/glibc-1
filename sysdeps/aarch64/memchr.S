@@ -59,7 +59,7 @@
  * identify exactly which byte has matched.
  */
 
-ENTRY (__memchr)
+ENTRY (memchr)
 	/* Do not dereference srcin if no bytes to compare.  */
 	cbz	cntin, L(zero_length)
 	/*
@@ -152,6 +152,5 @@ L(tail):
 L(zero_length):
 	mov	result, #0
 	ret
-END (__memchr)
-weak_alias (__memchr, memchr)
+END (memchr)
 libc_hidden_builtin_def (memchr)

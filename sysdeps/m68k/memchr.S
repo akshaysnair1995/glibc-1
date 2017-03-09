@@ -23,7 +23,7 @@
 #include "asm-syntax.h"
 
 	TEXT
-ENTRY(__memchr)
+ENTRY(memchr)
 	/* Save the callee-saved registers we use.  */
 #ifdef __mcoldfire__
 	movel	R(d2),MEM_PREDEC(sp)
@@ -301,7 +301,6 @@ L(L9:)
 	cfi_restore (R(d4))
 #endif
 	rts
-END(__memchr)
+END(memchr)
 
-weak_alias (__memchr, memchr)
 libc_hidden_builtin_def (memchr)

@@ -54,7 +54,7 @@
 
 #define str		in0
 
-ENTRY(__memchr)
+ENTRY(memchr)
 	.prologue
 	alloc r2 = ar.pfs, 3, 0, 29, 32
 #include "softpipe.h"
@@ -151,7 +151,6 @@ ENTRY(__memchr)
 	adds	ret0 = 8, ret0		// load the next unchecked 8byte
 	br.sptk	.l4;;
 
-END(__memchr)
+END(memchr)
 
-weak_alias (__memchr, memchr)
 libc_hidden_builtin_def (memchr)

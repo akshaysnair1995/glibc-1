@@ -23,8 +23,8 @@
 
 #if IS_IN (libc)
 	.text
-ENTRY(__memchr)
-	.type	__memchr, @gnu_indirect_function
+ENTRY(memchr)
+	.type	memchr, @gnu_indirect_function
 	LOAD_GOT_AND_RTLD_GLOBAL_RO
 	HAS_CPU_FEATURE (SSE2)
 	jz	2f
@@ -39,9 +39,7 @@ ENTRY(__memchr)
 
 3:	LOAD_FUNC_GOT_EAX (__memchr_sse2_bsf)
 	ret
-END(__memchr)
-
-weak_alias(__memchr, memchr)
+END(memchr)
 
 # undef ENTRY
 # define ENTRY(name) \

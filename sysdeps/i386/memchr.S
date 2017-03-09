@@ -36,7 +36,7 @@
 #define LEN	CHR+4
 
 	.text
-ENTRY (__memchr)
+ENTRY (memchr)
 
 	/* Save callee-safe registers used in this function.  */
 	pushl %esi
@@ -316,7 +316,6 @@ L(9):	popl %edi		/* pop saved registers */
 	cfi_restore (esi)
 
 	ret
-END (__memchr)
+END (memchr)
 
-weak_alias (__memchr, memchr)
 libc_hidden_builtin_def (memchr)

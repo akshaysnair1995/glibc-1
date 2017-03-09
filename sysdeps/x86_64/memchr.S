@@ -312,6 +312,4 @@ L(return_null):
 	ret
 END(memchr)
 
-strong_alias (memchr, __memchr)
-
 libc_hidden_builtin_def(memchr)
